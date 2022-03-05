@@ -29,17 +29,6 @@ app.get('/reviews', (req, res) => {
   });
 });
 
-// app.get('/reviews/meta', (req, res) => {
-//   getReviewCharacteristics(Number(req.query.product_id))
-//   .then((charsObj) => {
-//     if (charsObj.characteristics.length === 0) {
-//       res.status(404).send('Could not find characteristics for reviews of product_id: ' + req.query.product_id);
-//     } else {
-//       res.status(200).send(charsObj);
-//     }
-//   });
-// });
-
 app.post('/reviews', (req, res) => {
   saveNewReview(req.body)
   .then(() => {

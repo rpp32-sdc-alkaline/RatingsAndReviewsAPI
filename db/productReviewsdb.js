@@ -7,13 +7,6 @@ const photosSchema = new mongoose.Schema({
   urls: [String]
 });
 
-//No longer using characteristics due to bad CSV data
-// const characteristicsSchema = new mongoose.Schema({
-//   review_id: Number,
-//   characteristic_id: Number,
-//   value: Number
-// });
-
 const reviewsSchema = new mongoose.Schema({
   review_id: { type: Number, unique: true},
   rating: Number,
@@ -36,8 +29,6 @@ const productsSchema = new mongoose.Schema({
 
 
 const reviews = mongoose.model('allreviews', productsSchema);
-//No longer using characteristics due to bad CSV data
-// const characteristics = mongoose.model('characteristics', characteristicsSchema);
 const photos = mongoose.model('allphotos', photosSchema);
 
 
@@ -71,18 +62,6 @@ const saveNewReview = async function (reviewObj) {
     photos: JSON.parse(reviewObj.photos) || []
   };
 
-  // for (let charId in reviewObj.characteristics) {
-  //   const newCharacteristic = new characteristics({
-  //     review_id: newReviewId,
-  //     characteristic_id: charId,
-  //     value: reviewObj.characteristics[charId]
-  //   });
-
-  //   newCharacteristic.save()
-  //   .catch((err) => {
-  //     console.log('Error saving characteristic: ', err);
-  //   });
-  // }
   await reviews.findOne({ _id: Number(reviewObj.product_id) }).exec()
   .then((doc) => {
     let results = doc.results;
@@ -99,7 +78,7 @@ const getReviewsdb = async function (paramsObj) {
 
   let transformedReviews = {
     product_id: paramsObj.product_id,
-    page: paramsObj.page,
+    page: paramsObj.page || 0,
     count: paramsObj.count || 5,
     results: []
   };
@@ -120,7 +99,6 @@ const getReviewsdb = async function (paramsObj) {
 
   await reviews.find({ _id: paramsObj.product_id }).exec()
   .then(async (productReviews) => {
-    console.log(productReviews);
     for (let review = 0; review < transformedReviews.count; review++) {
       if (productReviews[0].results[review].reported === 'false' || productReviews[0].results[review].reported === undefined) {
         transformedReviews.results.push(productReviews[0].results[review]);
@@ -147,27 +125,6 @@ const getReviewsdb = async function (paramsObj) {
 
   return transformedReviews;
 };
-
-//No longer using characteristics due to bad CSV data
-// const getReviewCharacteristics = async function(paramsObj) {
-//   var transformedCharsObj = {
-//     product_id: paramsObj.product_id,
-//     characteristics: []
-//   }
-
-//   await reviews.find({ product_id: paramsObj.product_id }).exec()
-//   .then(async (productReviews) => {
-//     for (let review = 0; review < productReviews.length; review++) {
-//       var reviewCharacterisitics = await characteristics.find({ review_id: productReviews[review].results.review_id });
-//       transformedCharsObj.characteristics = transformedCharsObj.characteristics.concat(reviewCharacterisitics);
-//     }
-//   })
-//   .catch((err) => {
-//     console.log('Error finding reviews by product_id for characteristics: ', err);
-//   });
-
-//   return transformedCharsObj;
-// }
 
 const markReviewHelpful = async function(reviewId) {
   await reviews.findOne({ 'results.review_id': reviewId }).exec()
