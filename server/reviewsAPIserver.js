@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import * as newrelic from 'newrelic';
 import { fileURLToPath } from 'url';
 import  { getReviewsdb, saveNewReview, markReviewHelpful, reportReview } from '../db/productReviewsdb.js';
 

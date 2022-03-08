@@ -4,3 +4,9 @@ coverage
 
 #key
 SDCMongoDBKey.pem
+
+#evironment variables
+.env
+
+#logs
+newrelic_agent.log
