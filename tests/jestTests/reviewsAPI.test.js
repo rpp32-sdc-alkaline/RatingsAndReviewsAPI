@@ -58,20 +58,6 @@ describe('getting reviews from db', () => {
   });
 });
 
-// describe('getting review metadata from db', () => {
-//   test('Should send back and object with an array of characteristics', async () => {
-//     const paramsObj = {
-//       product_id: 12
-//     };
-
-//     const response = await axios.get('http://localhost:3000/reviews/meta', {
-//       params: paramsObj
-//     });
-
-//     expect(Array.isArray(response.data.characteristics)).toBe(true);
-//   });
-// });
-
 xdescribe('Saving to db', () => {
   //passed, but requires tedious removing of docs inserted by test
   test('Should save a review and characteristic to db', async () => {
@@ -83,10 +69,7 @@ xdescribe('Saving to db', () => {
       recommend: true,
       name: 'testUser',
       email: 'testUser@test.com',
-      photos: [],
-      characteristics: {
-        '99999999999999999': 4
-      }
+      photos: []
     };
 
     await axios.post('http://localhost:3000/reviews', reviewObj);

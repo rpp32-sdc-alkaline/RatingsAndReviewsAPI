@@ -1,3 +1,12 @@
 #node modules
 node_modules
 coverage
+
+#key
+SDCMongoDBKey.pem
+
+#evironment variables
+.env
+
+#logs
+newrelic_agent.log
