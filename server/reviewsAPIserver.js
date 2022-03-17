@@ -36,7 +36,6 @@ app.post('/reviews', (req, res) => {
     res.status(201).end();
   })
   .catch((err) => {
-    console.log('function is problem')
     res.status(400).send(err);
   });
 });
